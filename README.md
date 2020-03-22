@@ -1,4 +1,4 @@
 # Interfiber-calendar
 
-The easy to use calendar made by 
-# ME!
+The easy to use calendar made by
+# ME AND MY AWESOME DAD!
