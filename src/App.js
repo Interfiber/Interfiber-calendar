@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
 
@@ -7,18 +7,28 @@ class App extends Component {
     super();
     this.state = {
       message: "Hunter is soooo attarctive!",
-      newTodo: '',
-      todos: [{
-
-
-        title: 'todos:',
-        done: false
-
-      }, {
-        title: "example todo",
-        done: false
-
-
+      newAppointment:
+        {
+          title: '',
+          location: '',
+          comments: '',
+          date: '',
+          category: ''
+        },
+      appointments: [
+        {
+          title: 'Fart up a storm',
+          location: 'Your House',
+          comments: 'Your face is really handsome',
+          date: '2020-04-02 11:00:00',
+          category: 'Random Activities'
+        },
+        {
+          title: 'Drop the kids off at the pool',
+          location: 'Upstairs Bathroom',
+          comments: "You're going to want some air freshener",
+          date: '2020-04-02 14:00:00',
+          category: 'Bodily Functions'
       }]
 
     };
@@ -29,12 +39,7 @@ class App extends Component {
   console.log(event);
   event.preventDefault();
   this.setState({
-  todos: [...this.state.todos, {
-
-    title: this.state.newTodo,
-    done: false
-
-  }]
+  appointments: [...this.state.appointments, this.state.newAppointment]
 
 
 
@@ -42,9 +47,13 @@ class App extends Component {
 
 
 }
-newTodoChanged(event){
+newAppointmentChanged(event, field){
+
+var appt = this.state.newAppointment;
+appt[field] = event.target.value;
+
 this.setState({
-newTodo: event.target.value
+newAppointment: appt
 
 
 
@@ -55,21 +64,30 @@ newTodo: event.target.value
   render() {
     return (
       <div className="App">
-        <h1>Interfibers amazing TODO APP!</h1>
-        <form onSubmit={this.formSubmitted}>
-        <ul>
+        <h1>Interfibers amazing Calendar APP!</h1>
 
 
-        {this.state.todos.map(todo => {
+        {this.state.appointments.map(appointment => {
 
-          return <li key={todo.title}>{todo.title}</li>
+          return <div className="appointmentDisplay" key={appointment.title}>
+              <div className="title">
+                Title: {appointment.title}
+              </div>
+              <div className="time">Time: {appointment.date}</div>
+              <div className="comments">
+                Comments: {appointment.comments}
+              </div>
+            </div>
         })}
-        </ul>
+        <form onSubmit={this.formSubmitted}>
+          <label htmlFor="newAppointment">Title</label>
+          <input onChange={(event) => this.newAppointmentChanged(event, "title")} id="newAppointment" name="newAppointment"/>
 
-        <label htmlFor="newTodo">new Item</label>
-        <input onChange={(event) => this.newTodoChanged(event)} id="newTodo" name="newTodo"/>
-
-        <button type="submit">Add TODO</button>
+          <label htmlFor="newTime">Time</label>
+          <input onChange={(event) => this.newAppointmentChanged(event, "date")} id="newTime" name="newTime"/>
+          <label htmlFor="newTime">Comments</label>
+          <input onChange={(event) => this.newAppointmentChanged(event, "comments")} id="newComment" name="newComment"/>
+          <button type="submit">Add Appointment</button>
         </form>
       </div>
     );
