@@ -13,7 +13,8 @@ class App extends Component {
           location: '',
           comments: '',
           date: '',
-          category: ''
+          category: '',
+          id: ''
         },
       appointments: [
         {
@@ -21,14 +22,16 @@ class App extends Component {
           location: 'Your House',
           comments: 'Your face is really handsome',
           date: '2020-04-02 11:00:00',
-          category: 'Random Activities'
+          category: 'Random Activities',
+          id: 0
         },
         {
           title: 'Drop the kids off at the pool',
           location: 'Upstairs Bathroom',
           comments: "You're going to want some air freshener",
           date: '2020-04-02 14:00:00',
-          category: 'Bodily Functions'
+          category: 'Bodily Functions',
+          id: 1
       }]
 
     };
@@ -38,15 +41,35 @@ class App extends Component {
 
   console.log(event);
   event.preventDefault();
+  this.state.newAppointment.id = this.state.appointments.length
+  console.log(this.state.newAppointment.id)
   this.setState({
-  appointments: [...this.state.appointments, this.state.newAppointment]
+  appointments: [...this.state.appointments, this.state.newAppointment],
+  newAppointment: {}
 
 
 
   });
+}
+
+deleteAppoint(id){
+   var appointments = []
+   this.state.appointments.forEach((appt, i) => {
+      if(appt.id != id){
+
+        appointments.push(appt)
+
+      }
+      this.setState({
+        appointments: appointments
+
+
+      });
+   });
 
 
 }
+
 newAppointmentChanged(event, field){
 
 var appt = this.state.newAppointment;
@@ -61,6 +84,7 @@ newAppointment: appt
 
 
 }
+
   render() {
     return (
       <div className="App">
@@ -73,6 +97,7 @@ newAppointment: appt
               <div className="title">
                 Title: {appointment.title}
               </div>
+              <button className="DELETE" onClick={(event) => this.deleteAppoint(appointment.id)}>🚫</button>
               <div className="time">Time: {appointment.date}</div>
               <div className="comments">
                 Comments: {appointment.comments}
