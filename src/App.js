@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
+import AppointmentForm from './AppointmentForm';
 
 class App extends Component {
 
@@ -14,23 +15,23 @@ class App extends Component {
           comments: '',
           date: '',
           category: '',
-          id: ''
+          id: null
         },
       appointments: [
         {
-          title: 'Fart up a storm',
-          location: 'Your House',
-          comments: 'Your face is really handsome',
+          title: 'Fix Interfiber-Calender bugs',
+          location: 'Github',
+          comments: 'Sign in to github',
           date: '2020-04-02 11:00:00',
-          category: 'Random Activities',
+          category: 'Dev',
           id: 0
         },
         {
-          title: 'Drop the kids off at the pool',
-          location: 'Upstairs Bathroom',
-          comments: "You're going to want some air freshener",
+          title: 'Take bike ride',
+          location: 'Outside',
+          comments: "",
           date: '2020-04-02 14:00:00',
-          category: 'Bodily Functions',
+          category: 'Sports',
           id: 1
       }]
 
@@ -39,18 +40,26 @@ class App extends Component {
   }
   formSubmitted(event){
 
-  console.log(event);
-  event.preventDefault();
-  this.state.newAppointment.id = this.state.appointments.length
-  console.log(this.state.newAppointment.id)
-  this.setState({
-  appointments: [...this.state.appointments, this.state.newAppointment],
-  newAppointment: {}
+    event.preventDefault();
 
+    if(this.state.newAppointment.id == null) {
+      this.state.newAppointment.id = this.state.appointments.length
+      this.setState({
+        appointments: [...this.state.appointments, this.state.newAppointment]
+      });
+    }
 
-
-  });
-}
+    this.setState({
+      newAppointment: {
+        title: '',
+        location: '',
+        comments: '',
+        date: '',
+        category: '',
+        id: null
+      }
+    });
+  }
 
 deleteAppoint(id){
    var appointments = []
@@ -69,6 +78,22 @@ deleteAppoint(id){
 
 
 }
+editAppoint(id){
+   this.state.appointments.forEach((appt, i) => {
+      if(appt.id == id){
+        this.setState({
+          newAppointment: appt
+
+
+        });
+
+      }
+
+   });
+
+
+}
+
 
 newAppointmentChanged(event, field){
 
@@ -98,22 +123,18 @@ newAppointment: appt
                 Title: {appointment.title}
               </div>
               <button className="DELETE" onClick={(event) => this.deleteAppoint(appointment.id)}>🚫</button>
+              <button className="EDIT" onClick={(event) => this.editAppoint(appointment.id)}>✏️</button>
               <div className="time">Time: {appointment.date}</div>
               <div className="comments">
                 Comments: {appointment.comments}
               </div>
             </div>
         })}
-        <form onSubmit={this.formSubmitted}>
-          <label htmlFor="newAppointment">Title</label>
-          <input onChange={(event) => this.newAppointmentChanged(event, "title")} id="newAppointment" name="newAppointment"/>
+        <AppointmentForm formSubmitted={this.formSubmitted.bind(this)}
+          newAppointmentChanged={this.newAppointmentChanged.bind(this)}
+          appointment={this.state.newAppointment}
 
-          <label htmlFor="newTime">Time</label>
-          <input onChange={(event) => this.newAppointmentChanged(event, "date")} id="newTime" name="newTime"/>
-          <label htmlFor="newTime">Comments</label>
-          <input onChange={(event) => this.newAppointmentChanged(event, "comments")} id="newComment" name="newComment"/>
-          <button type="submit">Add Appointment</button>
-        </form>
+        />
       </div>
     );
   }
