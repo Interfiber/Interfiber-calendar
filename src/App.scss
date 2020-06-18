@@ -20,6 +20,32 @@
     }
 
 }
+
+.react-datetime-picker__wrapper {
+  color: white;
+
+  input {
+    color: blue;
+  }
+}
+
+.react-datetime-picker__calendar {
+
+  background-color: cyan;
+  border: solid 10px blue;
+
+  .react-calendar__tile {
+    background-color: black;
+    color: white;
+  }
+
+  .react-calendar__navigation__arrow, .react-calendar__navigation__label {
+     background-color: black;
+     color: white;
+  }
+
+}
+
 h1 {
 
   color: cyan;

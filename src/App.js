@@ -95,18 +95,22 @@ editAppoint(id){
 }
 
 
-newAppointmentChanged(event, field){
+newAppointmentChanged(event, field) {
 
-var appt = this.state.newAppointment;
-appt[field] = event.target.value;
+  var appt = this.state.newAppointment;
+  appt[field] = event.target.value;
 
-this.setState({
-newAppointment: appt
+  this.setState({
+    newAppointment: appt
+  });
+}
 
+newAppointmentSetDate(date) {
+  this.state.newAppointment.date = date;
 
-
-});
-
+  this.setState({
+    newAppointment: this.state.newAppointment
+  });
 
 }
 
@@ -132,6 +136,7 @@ newAppointment: appt
         })}
         <AppointmentForm formSubmitted={this.formSubmitted.bind(this)}
           newAppointmentChanged={this.newAppointmentChanged.bind(this)}
+          setDate={this.newAppointmentSetDate.bind(this)}
           appointment={this.state.newAppointment}
 
         />
